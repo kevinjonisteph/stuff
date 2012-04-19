@@ -1,0 +1,12 @@
+var a, x in 
+
+a := input secret num;
+
+if (a) {
+  var b, c, d in {
+    c := input alice str;
+    if (c) x := d
+  }
+};
+
+output public x

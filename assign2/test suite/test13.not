@@ -1,0 +1,8 @@
+var x, y in
+
+output secret "enter secret number: ";
+x := input secret num;
+
+if (x) y := 1;
+
+output public y

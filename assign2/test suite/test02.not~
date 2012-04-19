@@ -1,0 +1,5 @@
+var x, y in
+
+if (x) y := false else undef
+
+output public y

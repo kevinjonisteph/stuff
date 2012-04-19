@@ -1,0 +1,9 @@
+var x, y in
+
+output secret "enter secret number: ";
+x := input secret num;
+y := input alice num;
+if (x)
+  y := -1 + x;
+
+output alice y

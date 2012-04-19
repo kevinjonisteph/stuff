@@ -1,0 +1,7 @@
+var x, y in
+
+output secret "enter secret number: ";
+x := input secret num;
+y := x < 3;
+
+output public y

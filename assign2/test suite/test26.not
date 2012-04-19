@@ -1,0 +1,11 @@
+var x, y, z in
+
+output public "enter secret number: ";
+x := input secret num;
+y := true;
+z := true;
+
+if ( x ) y := false;
+if ( y ) z := false;
+
+output public z

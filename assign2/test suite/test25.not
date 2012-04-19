@@ -1,0 +1,13 @@
+var s, p in
+
+s := input secret num;
+p := input public num;
+
+if (s) {
+  if (p) {
+    p := 1
+  }
+};
+
+output public p
+

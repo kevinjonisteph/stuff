@@ -1,0 +1,11 @@
+var x, y in
+
+output secret "enter secret number: ";
+x := input secret num;
+y := 3;
+while(0 < x) {
+    y := y + 1;
+    x := x - 1
+};
+
+output public y
