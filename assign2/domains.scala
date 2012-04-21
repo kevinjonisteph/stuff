@@ -36,7 +36,7 @@ object σ {
   def update( a:Address, v:Storable): Storable =
     if ( a < store.length ) {
       store( a ) = v
-      UndefV( Public ) //FIX THIS
+      UndefV(v.label)
     }
     else throw undefined
 
@@ -56,7 +56,13 @@ object σ {
 object pc {
 	val stack = new Stack[Lattice]
 	def top( ): Lattice =  stack.top
-	def push( l:Lattice ) = stack.push(l)
+	def push( l:Lattice ) = { if(stack.isEmpty) 
+														{ 
+															stack.push(l) 
+														} else { 
+															stack.push(l.⊔(pc.top)) 
+														}
+													}
 	def pop( ) = stack.pop
 }
 

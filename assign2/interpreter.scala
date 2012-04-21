@@ -18,15 +18,17 @@ object miniJS {
     // either print the AST or evaluate it
     if ( args.length > 1 && args(1) == "--ast" ) 
       printDot( ast )
-    else 
-      inScope( Env(), Public) eval ast //Check this
+    else {
+			pc.push(Public)
+      inScope( Env() ) eval ast //Check this
+		}
   }
   
 }
 
 // every term is evaluated inside a scope corresponding to a
 // particular environment
-case class inScope( ρ:Env, l:Lattice) {
+case class inScope( ρ:Env ) {
 
   // evaluate a sequence of expressions returning a list of the
   // corresponding values
@@ -56,7 +58,7 @@ case class inScope( ρ:Env, l:Lattice) {
 				eval( t )
 				s = eval( w )
 			}
-			else s = UndefV(l)
+			else s = UndefV(pc.top())
 
 			pc.pop
 			s
@@ -66,23 +68,23 @@ case class inScope( ρ:Env, l:Lattice) {
       val v = eval( e )
 	
       if (l != Public)
-	throw insecure
+				throw insecure
       
       println( v )
       UndefV(l)
     }
     
     case Num( n ) ⇒ 
-      NumV( l, n )
+      NumV( pc.top(), n )
 
     case Bool( b ) ⇒ 
-      BoolV( l, b )
+      BoolV( pc.top(), b )
       
     case Str( s ) ⇒ 
-      StrV( l, s )
+      StrV( pc.top(), s )
       
     case Undef() ⇒ 
-      UndefV(l)
+      UndefV(pc.top())
 
     case Var( x ) ⇒ 
       σ( ρ( x ) )
@@ -101,16 +103,16 @@ case class inScope( ρ:Env, l:Lattice) {
       val v2 = eval( e2 )
 
       op match {
-	case ⌜+⌝ ⇒ v1 + (v2 , l)//+( NumV(l, v1+ v2), l )
-	case ⌜−⌝ ⇒ v1 − (v2 , l)
-	case ⌜×⌝ ⇒ v1 × (v2 , l)
-	case ⌜÷⌝ ⇒ v1 ÷ (v2 , l)
-	case ⌜∧⌝ ⇒ v1 ∧ (v2 , l)
-	case ⌜∨⌝ ⇒ v1 ∨ (v2 , l)
-	case ⌜=⌝ ⇒ v1 ≈ (v2 , l)
-	case ⌜≠⌝ ⇒ v1 ≠ (v2 , l)
-	case ⌜≤⌝ ⇒ v1 ≤ (v2 , l)
-	case ⌜<⌝ ⇒ v1 < (v2 , l)
+	case ⌜+⌝ ⇒ v1 + (v2 , pc.top())//+( NumV(l, v1+ v2), l )
+	case ⌜−⌝ ⇒ v1 − (v2 , pc.top())
+	case ⌜×⌝ ⇒ v1 × (v2 , pc.top())
+	case ⌜÷⌝ ⇒ v1 ÷ (v2 , pc.top())
+	case ⌜∧⌝ ⇒ v1 ∧ (v2 , pc.top())
+	case ⌜∨⌝ ⇒ v1 ∨ (v2 , pc.top())
+	case ⌜=⌝ ⇒ v1 ≈ (v2 , pc.top())
+	case ⌜≠⌝ ⇒ v1 ≠ (v2 , pc.top())
+	case ⌜≤⌝ ⇒ v1 ≤ (v2 , pc.top())
+	case ⌜<⌝ ⇒ v1 < (v2 , pc.top())
       }
     }
     
@@ -137,8 +139,8 @@ case class inScope( ρ:Env, l:Lattice) {
     
     case Let( xs, t ) ⇒ 
     {
-      val bindings = xs map ( _.x → ( σ += UndefV(l) ) )
-      inScope( ρ ++ bindings, l ) eval t
+      val bindings = xs map ( _.x → ( σ += UndefV(pc.top()) ) )
+      inScope( ρ ++ bindings ) eval t
     }
     
   }
