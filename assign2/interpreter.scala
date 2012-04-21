@@ -71,7 +71,7 @@ case class inScope( ρ:Env ) {
 				throw insecure
       
       println( v )
-      UndefV(l)
+      UndefV(l) // TODO:: What should we pass in here?
     }
     
     case Num( n ) ⇒ 

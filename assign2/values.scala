@@ -51,36 +51,35 @@ case class NumV(level:Lattice, n:BigInt ) extends Storable (level:Lattice){
   
   def + ( v:Storable, l:Lattice ) = v match {
     
-    case NumV( _level, _n ) ⇒  NumV( _level.⊔(l), n + _n)
+    case NumV( _level, _n ) ⇒  NumV( _level.⊔(level), n + _n)
     case _ ⇒ throw undefined
   }
   def − ( v:Storable, l:Lattice ) = v match {
-    case NumV( _level, _n ) ⇒ NumV( _level.⊔(l), n - _n)
+    case NumV( _level, _n ) ⇒ NumV( _level.⊔(level), n - _n)
     case _ ⇒ throw undefined
   }
   def × ( v:Storable, l:Lattice ) = v match {
-    case NumV( _level, _n ) ⇒ NumV( _level.⊔(l), n * _n)
+    case NumV( _level, _n ) ⇒ NumV( _level.⊔(level), n * _n)
     case _ ⇒ throw undefined
   }
   def ÷ ( v:Storable, l:Lattice ) = v match {
-    case NumV( _level, _n ) ⇒ if ( _n != 0 ) NumV( _level.⊔(l), n / _n) else throw undefined
+    case NumV( _level, _n ) ⇒ if ( _n != 0 ) NumV( _level.⊔(level), n / _n) else throw undefined
     case _ ⇒ throw undefined
   }
   def ≈ ( v:Storable, l:Lattice ) = v match {
-    case NumV( _level, _n ) ⇒ BoolV( _level.⊔(l), n == _n)
+    case NumV( _level, _n ) ⇒ BoolV( _level.⊔(level), n == _n)
     case _ ⇒ BoolV( l, false)
   }
   def ≠ ( v:Storable, l:Lattice ) = v match {
-    case NumV( _level, _n ) ⇒ BoolV( _level.⊔(l), n != _n)
+    case NumV( _level, _n ) ⇒ BoolV( _level.⊔(level), n != _n)
     case _ ⇒ BoolV( l, true)
   }
   def ≤ ( v:Storable, l:Lattice ) = v match {
-    case NumV( _level, _n ) ⇒ { println("In <= about to join " + level + " and " + _level)
-		BoolV( _level.⊔(level), n <= _n) } 
+    case NumV( _level, _n ) ⇒ BoolV( _level.⊔(level), n <= _n)  
     case _ ⇒ throw undefined
   }
   def < ( v:Storable, l:Lattice ) = v match {
-    case NumV( _level, _n ) ⇒ BoolV( _level.⊔(l), n < _n)
+    case NumV( _level, _n ) ⇒ BoolV( _level.⊔(level), n < _n)
     case _ ⇒ throw undefined
   }
   def ∧ ( v:Storable, l:Lattice ) = BoolV( l, this.T && v.T )
@@ -101,11 +100,11 @@ case class BoolV(level:Lattice, b:Boolean ) extends Storable (level:Lattice){
   def × ( v:Storable, l:Lattice ) = throw undefined
   def ÷ ( v:Storable, l:Lattice ) = throw undefined
   def ≈ ( v:Storable, l:Lattice ) = v match {
-    case BoolV( _level, _b ) ⇒ BoolV( _level.⊔(l), b == _b )
+    case BoolV( _level, _b ) ⇒ BoolV( _level.⊔(level), b == _b )
     case _ ⇒ BoolV( l, false)
   }
   def ≠ ( v:Storable, l:Lattice ) = v match {
-    case BoolV( _level, _b ) ⇒ BoolV( _level.⊔(l), b != _b )
+    case BoolV( _level, _b ) ⇒ BoolV( _level.⊔(level), b != _b )
     case _ ⇒ BoolV( l, true)
   }
   def ≤ ( v:Storable, l:Lattice ) = throw undefined
@@ -124,26 +123,26 @@ case class StrV(level:Lattice, s:String ) extends Storable(level:Lattice) {
   def T = s != ""
   
   def + ( v:Storable, l:Lattice ) = v match {
-    case StrV( _level, _s ) ⇒  StrV( _level.⊔(l), s + _s )
+    case StrV( _level, _s ) ⇒  StrV( _level.⊔(level), s + _s )
     case _ ⇒ throw undefined
   }
   def − ( v:Storable, l:Lattice ) = throw undefined
   def × ( v:Storable, l:Lattice ) = throw undefined
   def ÷ ( v:Storable, l:Lattice ) = throw undefined
   def ≈ ( v:Storable, l:Lattice ) = v match {
-    case StrV( _level, _s ) ⇒ BoolV( _level.⊔(l), s == _s )
+    case StrV( _level, _s ) ⇒ BoolV( _level.⊔(level), s == _s )
     case _ ⇒ BoolV( l, false)
   }
   def ≠ ( v:Storable, l:Lattice ) = v match {
-    case StrV( _level, _s ) ⇒ BoolV( _level.⊔(l), s != _s )
+    case StrV( _level, _s ) ⇒ BoolV( _level.⊔(level), s != _s )
     case _ ⇒ BoolV( l, true)
   }
   def ≤ ( v:Storable, l:Lattice ) = v match {
-    case StrV( _level, _s ) ⇒ BoolV( _level.⊔(l), s <= _s )
+    case StrV( _level, _s ) ⇒ BoolV( _level.⊔(level), s <= _s )
     case _ ⇒ throw undefined
   }
   def < ( v:Storable, l:Lattice ) = v match {
-    case StrV( _level, _s ) ⇒ BoolV( _level.⊔(l), s < _s )
+    case StrV( _level, _s ) ⇒ BoolV( _level.⊔(level), s < _s )
     case _ ⇒ throw undefined
   }
   def ∧ ( v:Storable, l:Lattice ) = BoolV( l, this.T && v.T)
@@ -164,11 +163,11 @@ case class UndefV(level:Lattice) extends Storable(level:Lattice) {
   def × ( v:Storable, l:Lattice ) = throw undefined
   def ÷ ( v:Storable, l:Lattice ) = throw undefined
   def ≈ ( v:Storable, l:Lattice ) = v match {
-    case UndefV(_level) ⇒ BoolV( _level.⊔(l) , true)
+    case UndefV(_level) ⇒ BoolV( _level.⊔(level) , true)
     case _ ⇒ BoolV( l , false)
   }
   def ≠ ( v:Storable, l:Lattice ) = v match {
-    case UndefV(_level) ⇒ BoolV( _level.⊔(l) , false)
+    case UndefV(_level) ⇒ BoolV( _level.⊔(level) , false)
     case _ ⇒ BoolV( l , true)
   } 
   def ≤ ( v:Storable, l:Lattice ) = throw undefined
