@@ -67,7 +67,7 @@ case class inScope( ρ:Env ) {
     case Output( e , l) ⇒ {
       val v = eval( e )
 	
-      if (l != Public)
+      if (v.label != Public)
 				throw insecure
       
       println( v )

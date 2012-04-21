@@ -46,6 +46,7 @@ sealed abstract class Storable( l:Lattice ) extends Value {
 
 // numbers
 case class NumV(level:Lattice, n:BigInt ) extends Storable (level:Lattice){
+	println("In NumV current level is" + level)
   def T = n != 0
   
   def + ( v:Storable, l:Lattice ) = v match {
@@ -74,7 +75,8 @@ case class NumV(level:Lattice, n:BigInt ) extends Storable (level:Lattice){
     case _ ⇒ BoolV( l, true)
   }
   def ≤ ( v:Storable, l:Lattice ) = v match {
-    case NumV( _level, _n ) ⇒ BoolV( _level.⊔(l), n <= _n)
+    case NumV( _level, _n ) ⇒ { println("In <= about to join " + level + " and " + _level)
+		BoolV( _level.⊔(level), n <= _n) } 
     case _ ⇒ throw undefined
   }
   def < ( v:Storable, l:Lattice ) = v match {
